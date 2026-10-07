@@ -15,20 +15,27 @@ Meta app (Content Curator) needs. Plain HTML and CSS, no build step, hosted on G
 
 Open `index.html` in a browser.
 
-## Publish on GitHub Pages
+## Hosting
 
-1. Create a **public** GitHub repo named `jv5r-site` and push this folder to `main`.
-2. Repo **Settings → Pages**: Source **Deploy from a branch**, branch `main`, folder `/ (root)`, Save.
-3. A minute later it is live at `https://<github-user>.github.io/jv5r-site/`.
+Live at **https://jv5rconsulting.com**, served by GitHub Pages from `main` (repo
+`JV5RConsulting/jv5r-site`, Settings → Pages). Pushing to `main` deploys in about a minute. The `CNAME`
+file holds the custom domain; do not delete it.
 
-## Custom domain (after buying it)
+DNS is at Cloudflare (the registrar), every record **DNS only** (grey cloud), never Proxied, or GitHub
+cannot renew the HTTPS certificate:
 
-1. At the registrar, add DNS records:
-   - `A` records for `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - `CNAME` record for `www`: `<github-user>.github.io`
-2. Repo **Settings → Pages → Custom domain**: enter the domain, Save (GitHub commits a `CNAME` file).
-3. When the certificate is ready, tick **Enforce HTTPS**.
-4. Update the Meta app's Privacy Policy and Data deletion URLs to the new domain.
+| Type | Name | Content |
+|---|---|---|
+| A | `@` | `185.199.108.153`, `.109.153`, `.110.153`, `.111.153` |
+| CNAME | `www` | `jv5rconsulting.github.io` |
+| TXT | `@` | `v=spf1 -all` (the domain sends no email) |
+| TXT | `_dmarc` | `v=DMARC1; p=reject; ...` (reject spoofed mail) |
+
+If the domain ever gets real email (Google Workspace, Cloudflare Email Routing), replace the two TXT
+records with the provider's.
+
+The Meta app (Content Curator) points at `https://jv5rconsulting.com/privacy.html` and
+`https://jv5rconsulting.com/data-deletion.html`: keep those paths.
 
 ## Editing the copy
 
